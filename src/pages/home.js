@@ -29,6 +29,8 @@ export default function HomePage() {
         setIsModalOpen(false);
     };
 
+    const { TextArea } = Input;
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -60,10 +62,12 @@ export default function HomePage() {
                                         message: 'Please, Tell us your Emergency',
                                     },
                                 ]}>
-                                <Input />
+                                    <TextArea rows={3} />
+                                {/* <Input /> */}
                             </Form.Item>
                             <Form.Item name="information" label="Any Additional Information (Optional)">
-                                <Input />
+                                <TextArea rows={2} />
+                                {/* <Input /> */}
                             </Form.Item>
                             <Form.Item>
                                 <Space>
