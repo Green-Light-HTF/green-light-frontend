@@ -6,9 +6,23 @@ export default function HomePage() {
     const [form] = Form.useForm();
     const nameValue = Form.useWatch('name', form);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [lat, setLat] = useState();
+    const [lng, setLng] = useState();
 
     const showModal = () => {
-        setIsModalOpen(true);
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // console.log(position)
+            setLat(position.coords.latitude)
+            setLng(position.coords.longitude)
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
+            setIsModalOpen(true);
+          }, function(error) {
+            message.error("Location is required")
+            console.log(error)
+            setIsModalOpen(false);
+
+          });
     };
 
     const handleOk = () => {
