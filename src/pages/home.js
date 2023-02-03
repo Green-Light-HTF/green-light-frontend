@@ -28,7 +28,6 @@ export default function HomePage() {
     //creating function to load ip address from the API
     const getData = async()=>{
         const res = await axios.get('https://geolocation-db.com/json/')
-        console.log(res.data);
         setIP(res.data.IPv4)
     }
     
@@ -49,15 +48,23 @@ export default function HomePage() {
 
     const onFinish = async (values) => {
         console.log(values)
-
-        await axios.post('ip/file_sos', {
+        console.log({
             lat,
             lng,
-            ip: IPv4,
-            message: emergency,
-            other: information
-        })
+            ip: ip,
+            message: values.emergency,
+            other: values.information
+        });
+        // await axios.post('ip/file_sos', {
+        //     lat,
+        //     lng,
+        //     ip: ip,
+        //     message: values.emergency,
+        //     other: values.information
+        // })
         message.success('Submit success!');
+        setIsModalOpen(false);
+
     };
 
     return (
