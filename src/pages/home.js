@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, InputNumber, message, Typography, Space } from 'antd';
+import axios from "axios";
 
 export default function HomePage() {
 
@@ -11,11 +12,8 @@ export default function HomePage() {
 
     const showModal = () => {
         navigator.geolocation.getCurrentPosition(function(position) {
-            // console.log(position)
             setLat(position.coords.latitude)
             setLng(position.coords.longitude)
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
             setIsModalOpen(true);
           }, function(error) {
             message.error("Location is required")
@@ -24,6 +22,20 @@ export default function HomePage() {
 
           });
     };
+
+    const [ip,setIP] = useState('');
+    
+    //creating function to load ip address from the API
+    const getData = async()=>{
+        const res = await axios.get('https://geolocation-db.com/json/')
+        console.log(res.data);
+        setIP(res.data.IPv4)
+    }
+    
+    useEffect(()=>{
+        //passing getData method to the lifecycle method
+        getData()
+    },[])
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -35,14 +47,18 @@ export default function HomePage() {
         setIsModalOpen(false);
     };
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log(values)
+
+        await axios.post('ip/file_sos', {
+            lat,
+            lng,
+            ip: IPv4,
+            message: emergency,
+            other: information
+        })
         message.success('Submit success!');
     };
-
-    //   const onFinishFailed = () => {
-    //     message.error('Submit failed!');
-    //   };
 
     return (
         <>
