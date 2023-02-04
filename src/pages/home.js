@@ -4,6 +4,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { AudioFilled, AudioMutedOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "./header.js";
 import Footer from "./footer.js";
 import sos from "../assets/images/download.png"
 import ws from "./socketConfig.js"
@@ -113,8 +114,11 @@ export default function HomePage() {
 
 
     return (
-        <>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", width: "100vw", backgroundImage: `url(${sos})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
+        <>  
+            <div>
+                <Header/>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh", width: "100vw", backgroundImage: `url(${sos})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
                 <div>
                     <Button type="primary" onClick={showModal} style={{background:"linear-gradient(to top, #FF0000 40%, #FF6600 70%)", height: "120px", width: "240px", fontSize:"30px", boxShadow:"0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%)"}} size="large">
                         SOS
@@ -170,9 +174,9 @@ export default function HomePage() {
                 </div>
 
             </div>
-            {/* <div>
+            <div>
                 <Footer/>
-            </div> */}
+            </div>
         </>
     );
 }
