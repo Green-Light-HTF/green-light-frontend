@@ -3,6 +3,9 @@ import { Button, Modal, Form, Input, InputNumber, message, Typography, Space, Al
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { AudioFilled, AudioMutedOutlined } from '@ant-design/icons';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Footer from "./footer.js";
+import sos from "../assets/images/download.png"
 
 export default function HomePage() {
 
@@ -12,6 +15,8 @@ export default function HomePage() {
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
     const [loading, setLoading] = useState(false);
+    const formRef = React.useRef(null);
+    const navigate = useNavigate();
 
 
     const {
@@ -58,6 +63,11 @@ export default function HomePage() {
         setIsModalOpen(false);
     };
 
+    useEffect(() => {
+        console.log("dfdgds")
+        form.setFieldsValue({ emergency: transcript});
+    }, [transcript]);
+
     const handleMicClick = () => {
         if (listening) {
             listening = false;
@@ -67,6 +77,7 @@ export default function HomePage() {
         }
     };
 
+    console.log(transcript)
     const onFinish = async (values) => {
         setLoading(true)
         console.log(values)
@@ -76,25 +87,29 @@ export default function HomePage() {
             ip: ip,
             message: values.emergency,
             other: values.information,
-            voice: transcript
         });
-        // await axios.post('ip/file_sos', {
-        //     lat,
-        //     lng,
-        //     ip: ip,
-        //     message: values.emergency,
-        //     other: values.information
-        // })
+        const response = await axios.post('http://192.168.50.150:10001/file_sos', {
+            lat,
+            lng,
+            ip: ip,
+            message: values.emergency,
+            other: values.information
+        })
         message.success('Submit success!');
-        // setIsModalOpen(false);
+        setIsModalOpen(false);
+        setLoading(false)
+        console.log(response)
+        navigate('/maps', { state: { name:'Xyz' }});
+       
 
     };
 
+
     return (
         <>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", width: "100vw" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", width: "100vw", backgroundImage: `url(${sos})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
                 <div>
-                    <Button type="primary" onClick={showModal}>
+                    <Button type="primary" onClick={showModal} style={{background:"linear-gradient(to top, #FF0000 40%, #FF6600 70%)", height: "120px", width: "240px", fontSize:"30px", boxShadow:"0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%)"}} size="large">
                         SOS
                     </Button>
                     <Modal centered="true" title="SOS" open={isModalOpen} footer="" onCancel={handleCancel}>
@@ -110,7 +125,7 @@ export default function HomePage() {
                                             message: 'Please, Tell us your Emergency',
                                         },
                                     ]}>
-                                    <TextArea rows={3} />
+                                    <TextArea rows={3} value={transcript}/>
                                     {/* <Input /> */}
                                 </Form.Item>
                                 <Form.Item name="information" label="Any Additional Information (Optional)">
@@ -142,12 +157,15 @@ export default function HomePage() {
                                         </Button>
                                     </Space>
                                 </Form.Item>
-
                             </Form>
                         </Spin>
                     </Modal>
                 </div>
+
             </div>
+            {/* <div>
+                <Footer/>
+            </div> */}
         </>
     );
 }
