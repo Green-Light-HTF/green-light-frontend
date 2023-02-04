@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ws from "./socketConfig.js"
+import Header from "./header.js";
+import Footer from "./footer.js";
 
 const BingMap = () => {
     const [data, setData] = useState(null);
@@ -171,9 +173,16 @@ const BingMap = () => {
       
       return (
         <div>
-          {/* <button onClick={moveWaypoint}>Move Waypoint</button> */}
-          <div id="printoutPanel"></div>
-          <div id="myMap" style={{ width: '100vw', height: '100vh' }}></div>
+            <div>
+                <Header/>
+            </div>
+            {/* <button onClick={moveWaypoint}>Move Waypoint</button> */}
+            <div id="printoutPanel"></div>
+            <div id="myMap" style={{ width: '100vw', height: '80vh' }}></div>
+
+            <div>
+                <Footer/>
+            </div>
         </div>
       );
       

@@ -36,16 +36,17 @@ export default function HomePage() {
 
 
     const showModal = () => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            setLat(position.coords.latitude)
-            setLng(position.coords.longitude)
-            setIsModalOpen(true);
-        }, function (error) {
-            message.error("Location is required")
-            console.log(error)
-            setIsModalOpen(false);
+        setIsModalOpen(true);
+        // navigator.geolocation.getCurrentPosition(function (position) {
+        //     setLat(position.coords.latitude)
+        //     setLng(position.coords.longitude)
+        //     setIsModalOpen(true);
+        // }, function (error) {
+        //     message.error("Location is required")
+        //     console.log(error)
+        //     setIsModalOpen(false);
 
-        });
+        // });
     };
 
     const [ip, setIP] = useState('');
@@ -90,15 +91,15 @@ export default function HomePage() {
         setLoading(true)
         console.log(values)
         console.log({
-            lat,
-            lng,
+            lat: 23.034150844910908,
+            lng: 72.50942678207106 ,
             ip: ip,
             message: values.emergency,
             other: values.information,
         });
         const response = await axios.post('http://192.168.50.150:10001/file_sos', {
-            lat,
-            lng,
+            lat: 23.034150844910908,
+            lng: 72.50942678207106 ,
             ip: ip,
             message: values.emergency,
             other: values.information
