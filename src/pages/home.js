@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "./footer.js";
 import sos from "../assets/images/download.png"
+import ws from "./socketConfig.js"
 
 export default function HomePage() {
 
@@ -18,7 +19,13 @@ export default function HomePage() {
     const formRef = React.useRef(null);
     const navigate = useNavigate();
 
+    // const ws = new WebSocket('ws://192.168.50.150:8000/ws');
 
+    // ws.onopen = () => {
+    //     console.log('WebSocket connected');
+    //     // setSocket(ws);
+    //   };
+    
     const {
         transcript,
         listening,
