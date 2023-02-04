@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, InputNumber, message, Typography, Space, Alert, Spin } from 'antd';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { AudioFilled, AudioMutedOutlined } from '@ant-design/icons';
 import axios from "axios";
 
 export default function HomePage() {
@@ -10,6 +12,14 @@ export default function HomePage() {
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
     const [loading, setLoading] = useState(false);
+
+
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
 
 
     const showModal = () => {
@@ -48,6 +58,15 @@ export default function HomePage() {
         setIsModalOpen(false);
     };
 
+    const handleMicClick = () => {
+        if (listening) {
+            listening = false;
+            SpeechRecognition.startListening();
+        } else {
+            SpeechRecognition.stopListening();
+        }
+    };
+
     const onFinish = async (values) => {
         setLoading(true)
         console.log(values)
@@ -56,7 +75,8 @@ export default function HomePage() {
             lng,
             ip: ip,
             message: values.emergency,
-            other: values.information
+            other: values.information,
+            voice: transcript
         });
         // await axios.post('ip/file_sos', {
         //     lat,
@@ -97,6 +117,24 @@ export default function HomePage() {
                                     <TextArea rows={2} />
                                     {/* <Input /> */}
                                 </Form.Item>
+
+                                <Form.Item name="Speech">
+                                    <div>
+                                        <div style={{display:"flex", alignItems:"center"}}>
+                                            <div style={{marginRight:"8px"}} onClick={SpeechRecognition.startListening}>{listening ? <AudioFilled /> : <AudioMutedOutlined />}</div>
+                                            <div style={{display:"flex", alignItems:"center", border:"1px solid #d9d9d9", minHeight:"32px", width:"100%", padding:"0px 4px", borderRadius:"4px"}}>
+                                                <p>{transcript}</p>    
+                                            </div>
+                                        </div>
+                                        <p>Microphone: {listening ? 'on' : 'off'}</p>
+                                        <div style={{display:"flex", alignItems:"center"}}>
+                                            <div style={{ height: "28px", width: "60px", background: "red", color:"white", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"4px", cursor:"pointer", marginRight:"8px"}} onClick={SpeechRecognition.stopListening}>Stop</div>
+                                            <div style={{ height: "28px", width: "60px", background: "#1677ff", color:"white", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"4px", cursor:"pointer"}} onClick={resetTranscript}>Reset</div>
+                                        </div>
+                                        {/* <p>{transcript}</p> */}
+                                    </div>
+                                </Form.Item>
+
                                 <Form.Item>
                                     <Space>
                                         <Button type="primary" htmlType="submit">
