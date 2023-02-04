@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ws from "./socketConfig.js"
 import Header from "./header.js";
 import Footer from "./footer.js";
+import { Button, message, Space } from 'antd';
+import axios from 'axios';
 
 const BingMap = () => {
     const [data, setData] = useState(null);
     const [socket, setSocket] = useState(null);
+    const [messageApi, contextHolder] = message.useMessage();
     
     // const coordinates = [ [23.058254250939743, 72.51682393703403] ,
     //    [ 23.058436876861652, 72.51687422845268],
@@ -102,8 +105,17 @@ const BingMap = () => {
             console.log(event)
             const data = JSON.parse(event.data)
             setLat(data.current_lat)
-            setLng(data.current_lng)
+            setLng(data.current_lat)
             console.log(data)
+            if(data.message !== null){
+                console.log(data.message, 111)
+            //       const response =  axios.get("http://dev.virtualearth.net/REST/v1/Locations/data.current_lat,data.current_lat?key=AjPGihUegNVzAbd_Fe78htn--29QxOLn2i5_EJp2BaJbXvSGC-GzSHceIDm28quR")
+            //       console.log(response)
+            //     messageApi.open({
+            //         type: 'success',
+            //         content: 'An Police Officer to the next',
+            //       });
+            }
             // setLat(event.)
           setData(event.data);
         };
@@ -172,6 +184,8 @@ const BingMap = () => {
     //   };
       
       return (
+        <>
+        {contextHolder}
         <div>
             <div>
                 <Header/>
@@ -184,6 +198,7 @@ const BingMap = () => {
                 <Footer/>
             </div>
         </div>
+        </>
       );
       
 };
