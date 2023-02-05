@@ -3,7 +3,6 @@ import ws from "./socketConfig.js"
 import Header from "./header.js";
 import Footer from "./footer.js";
 import { Button, message, Space } from 'antd';
-import axios from 'axios';
 
 const BingMap = () => {
     const [data, setData] = useState(null);
@@ -105,17 +104,9 @@ const BingMap = () => {
             console.log(event)
             const data = JSON.parse(event.data)
             setLat(data.current_lat)
-            setLng(data.current_lat)
+            setLng(data.current_lng)
             console.log(data)
-            if(data.message !== null){
-                console.log(data.message, 111)
-            //       const response =  axios.get("http://dev.virtualearth.net/REST/v1/Locations/data.current_lat,data.current_lat?key=AjPGihUegNVzAbd_Fe78htn--29QxOLn2i5_EJp2BaJbXvSGC-GzSHceIDm28quR")
-            //       console.log(response)
-            //     messageApi.open({
-            //         type: 'success',
-            //         content: 'An Police Officer to the next',
-            //       });
-            }
+            
             // setLat(event.)
           setData(event.data);
         };
@@ -192,7 +183,7 @@ const BingMap = () => {
             </div>
             {/* <button onClick={moveWaypoint}>Move Waypoint</button> */}
             <div id="printoutPanel"></div>
-            <div id="myMap" style={{ width: '100vw', height: '80vh' }}></div>
+            <div id="myMap" style={{ width: '100vw', height: '83vh' }}></div>
 
             <div>
                 <Footer/>

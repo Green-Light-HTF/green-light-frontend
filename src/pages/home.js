@@ -119,7 +119,7 @@ export default function HomePage() {
             <div>
                 <Header/>
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh", width: "100vw", backgroundImage: `url(${sos})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "83vh", width: "100vw", backgroundImage: `url(${sos})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
                 <div>
                     <Button type="primary" onClick={showModal} style={{background:"linear-gradient(to top, #FF0000 40%, #FF6600 70%)", height: "120px", width: "240px", fontSize:"30px", boxShadow:"0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%)"}} size="large">
                         SOS
